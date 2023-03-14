@@ -1,11 +1,13 @@
 package com.managementTool.project.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Products")
