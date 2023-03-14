@@ -25,12 +25,16 @@ public class AUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        if(user != null)
+            return user.getPassword();
+        else return " ";
     }
 
     @Override
     public String getUsername() {
-        return user.getUsername();
+        if(user != null)
+            return user.getUsername();
+        else return " ";
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/")
 public class AuthController {
 
     private final RoleRepository roleRepository;
@@ -19,22 +19,22 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @GetMapping("/login")
+    @GetMapping("login")
     public String userLogin(){
         return "User logged in";
     }
 
-    @GetMapping("/admin")
+    @GetMapping("admin")
     public String adminLogin(){
         return "Admin logged in";
     }
 
-    @PostMapping("/addRole")
+    @PostMapping("addRole")
     public void addRole(@RequestBody Role role) {
          roleRepository.save(role);
     }
 
-    @PostMapping("/addUser")
+    @PostMapping("addUser")
     public void addRole(@RequestBody User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userService.addUser(user);

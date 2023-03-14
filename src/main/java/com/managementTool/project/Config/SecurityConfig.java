@@ -1,7 +1,6 @@
 package com.managementTool.project.Config;
 
 import com.managementTool.project.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.NonNull;
@@ -16,14 +15,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
 
-    public SecurityConfig(UserService userService) {
+    private final UserService userService;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
+    public SecurityConfig(UserService userService, CustomAuthenticationEntryPoint authenticationEntryPoint) {
         this.userService = userService;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
-    @Autowired
-    private CustomAuthenticationEntryPoint authenticationEntryPoint;
 
     @Bean
     public PasswordEncoder encoder(){
@@ -48,6 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeHttpRequests()
                 .antMatchers("/addRole").permitAll()
                 .antMatchers("/addUser").permitAll()
+                .antMatchers("/api/v1/products/**").hasAnyRole("ADMIN")
                 .antMatchers("/admin").hasAnyRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER")
                 .anyRequest().authenticated().and().httpBasic()
