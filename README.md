@@ -7,7 +7,8 @@ This API acts as a store management tool
 ## Features
 
 - Retrieve all products 
-- Retrieve all products filtered by id
+- Retrieve products filtered by id
+- Retrieve products filtered by price
 - Add a new product
 - Update (full/ partial) a product 
 - Delete product
@@ -22,42 +23,17 @@ This API acts as a store management tool
 - JUnit 
 - Spring Security
 - Lombok
-- Postgres Database
+- Postgres Database- 
 - Postman
 - Configure the module as Maven project in order to automatically import the required dependencies
 ***
 
-## API Reference
+## API Reference 
+## Database connectivity
+You should use credentials from application.properties file
 
-### Get all products
-
-```http
-  GET /api/v1/products
-```
-
-### Get product by id
-
-```http
-  GET /api/v1/products/${id}
-```
-
-### Save new product
-
-```http
-  POST /api/v1/products
-```
-
-### Update a product
-
-```http
-  PUT /api/v1/products/${id}
-```
-
-### Delete product by id
-
-```http
-  DELETE /api/v1/products/${id}
-```
+## Perform operations on products
+In order to perform operations on products you have to be logged in as admin or user so you have to follow the next steps
 ### Add new roles
 ##### Json example for postman
 { \
@@ -96,6 +72,35 @@ This API acts as a store management tool
   GET /admin
 ```
 
+### Get all products
+```http
+  GET /api/v1/products
+```
+
+### Get product by id
+
+```http
+  GET /api/v1/products/${id}
+```
+
+### Save new product
+#### Only for admins
+```http
+  POST /api/v1/products
+```
+
+### Update a product
+#### Only for admins
+```http
+  PUT /api/v1/products/${id}
+```
+
+### Delete product by id
+#### Only for admins
+```http
+  DELETE /api/v1/products/${id}
+```
+
 ## Run Locally
 
 #### In order to run the application on local machine:
@@ -112,6 +117,9 @@ This API acts as a store management tool
    application
 5. After a few seconds, the logs should show that the server has been started
 
-
-
-
+***
+## Future possible updates
+ - Adding more operations on products depending on various requirements
+ - Adding categories for products
+ - Add role operation must be performed only by admin, so admin must be logged in as a different entity
+***

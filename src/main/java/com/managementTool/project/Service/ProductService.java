@@ -7,7 +7,9 @@ import com.managementTool.project.Repository.ProductRepository;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -29,11 +31,12 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public void updateProduct(Long id, @NonNull Product product){
+    public void updateProduct(Long id, Product product){
         Product productToUpdate = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found"));
-        productToUpdate.setProductName(product.getProductName());
-        productToUpdate.setDescription(product.getDescription());
-        productToUpdate.setPrice(product.getPrice());
+        if (product.getProductName() != null) productToUpdate.setProductName(product.getProductName());
+        if (product.getDescription() != null) productToUpdate.setDescription(product.getDescription());
+        if (product.getPrice() != null) productToUpdate.setPrice(product.getPrice());
+        productRepository.save(productToUpdate);
     }
 
     @Override
@@ -49,6 +52,14 @@ public class ProductService implements IProductService{
     public Double getProductPrice(Long id){
         Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("Product not found"));
         return product.getPrice();
+    }
+
+    public List<Product> getProductsByPriceRange(Double price, Double minPrice, Double maxPrice) {
+        if (price != null) {
+            return productRepository.findByPrice(price);
+        } else {
+            return productRepository.findByPriceBetween(minPrice, maxPrice);
+        }
     }
 
     @Override

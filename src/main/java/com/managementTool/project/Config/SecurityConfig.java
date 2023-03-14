@@ -3,6 +3,7 @@ package com.managementTool.project.Config;
 import com.managementTool.project.Service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -46,9 +47,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(@NonNull HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers("/addRole").permitAll()
                 .antMatchers("/addUser").permitAll()
-                .antMatchers("/api/v1/products/**").hasAnyRole("ADMIN")
+                .antMatchers("/addRole").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v1/products/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, "/api/v1/products/**").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/api/v1/products/**").hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/v1/products/**").hasAnyRole("ADMIN")
                 .antMatchers("/admin").hasAnyRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER")
                 .anyRequest().authenticated().and().httpBasic()

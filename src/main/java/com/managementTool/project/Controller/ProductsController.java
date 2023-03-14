@@ -33,6 +33,13 @@ public class ProductsController {
         return productService.getProductPrice(id);
     }
 
+    @GetMapping("filtered")
+    public List<Product> getProductsPyPrice(@RequestParam(name = "price", required = false) Double price,
+                                            @RequestParam(value = "min", required = false) Double minPrice,
+                                            @RequestParam(value = "max", required = false) Double maxPrice){
+        return productService.getProductsByPriceRange(price, minPrice, maxPrice);
+    }
+
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product){
         productService.createProduct(product);
